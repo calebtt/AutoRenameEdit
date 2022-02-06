@@ -138,22 +138,21 @@ result = input("Are you ABSOLUTELY sure you want to continue? This operation is 
 # use dictionaryFileLines to build a random selection of new file names
 if result.upper() == "Y":
     random.shuffle(dictionaryFileLines)
-
-iCurrentFileNameIndex = 0
-# as long as the number of renamed files is less than existing fileNameList len(), rename and remove entry from dict list
-for currentDictionaryEntry in dictionaryFileLines:
-    if iCurrentFileNameIndex >= len(fileNameList):  # if number of renamed files greater than equal to len of files to rename, break out of loop
-        break
-    if check_if_file_exists_in_dir(currentDictionaryEntry):  # if it exists in the folder already, remove from the dictionary list and move on. # I don't think it's a problem if the existing file happens to have the same name as the chosen new file name.
-        dictionaryFileLines.remove(currentDictionaryEntry)
-        iCurrentFileNameIndex += 1
-        continue
-    else:
-        currentFileName = fileNameList[iCurrentFileNameIndex]
-        currentNameOnly, currentExtension = os.path.splitext(currentFileName)  # split currentfilename into filename and extension
-        os.rename(currentFileName, currentDictionaryEntry.rstrip() + currentExtension)  # rename file.
-        print(currentFileName, " has RENAMED to: ", currentDictionaryEntry.rstrip() + currentExtension)
-        iCurrentFileNameIndex += 1
+    iCurrentFileNameIndex = 0
+    # as long as the number of renamed files is less than existing fileNameList len(), rename and remove entry from dict list
+    for currentDictionaryEntry in dictionaryFileLines:
+        if iCurrentFileNameIndex >= len(fileNameList):  # if number of renamed files greater than equal to len of files to rename, break out of loop
+            break
+        if check_if_file_exists_in_dir(currentDictionaryEntry):  # if it exists in the folder already, remove from the dictionary list and move on. # I don't think it's a problem if the existing file happens to have the same name as the chosen new file name.
+            dictionaryFileLines.remove(currentDictionaryEntry)
+            iCurrentFileNameIndex += 1
+            continue
+        else:
+            currentFileName = fileNameList[iCurrentFileNameIndex]
+            currentNameOnly, currentExtension = os.path.splitext(currentFileName)  # split currentfilename into filename and extension
+            os.rename(currentFileName, currentDictionaryEntry.rstrip() + currentExtension)  # rename file.
+            print(currentFileName, " has RENAMED to: ", currentDictionaryEntry.rstrip() + currentExtension)
+            iCurrentFileNameIndex += 1
 
 # End of program
 print("\nCOMPLETE.")
