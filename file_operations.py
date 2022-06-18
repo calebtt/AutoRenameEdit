@@ -13,17 +13,16 @@ MIN_FILE_SIZE = 50
 ENTRY_MIN_FILENAME_LENGTH = 2
 """minimum length of dictionary entry for a file name"""
 
+
 def remove_invalid_filename_chars(filenameCandidate):
     """ Filters a filename candidate for not allowed characters.
 
     :param filenameCandidate: unfiltered file name, name only no extension or path
     :return: returns the filename candidate with chars not in the whitelist removed.
     """
-    filteredName = ""
-    for elem in filenameCandidate:
-        if ALLOWABLE_FNAME_CHARS.find(elem):
-            filteredName += elem
+    filteredName = "".join([char for char in filenameCandidate if char in ALLOWABLE_FNAME_CHARS])
     return filteredName
+
 
 def build_image_list(filesInDirectory, programFileName):
     """Returns a list of image file names from the list of files in the directory and removes empty entries.
@@ -43,6 +42,7 @@ def build_image_list(filesInDirectory, programFileName):
     temp_file_name_list = list(filter(lambda x: x != "", temp_file_name_list))
     return temp_file_name_list
 
+
 def check_if_file_exists_in_dir(strName):
     """Returns true if chosen file name already exists in directory.
 
@@ -52,6 +52,7 @@ def check_if_file_exists_in_dir(strName):
         if os.path.exists(strName.rstrip() + ext):
             return True
     return False
+
 
 def is_dictionary_file_good(fullPathToDictionary):
     """some basic error checking regarding the file size of the dictionary file, performed before reading to memory
@@ -63,11 +64,12 @@ def is_dictionary_file_good(fullPathToDictionary):
     fileSize = os.path.getsize(fullPathToDictionary)
     print("Dictionary file size is: ", fileSize, " bytes.")
     # If the file is less than 50 bytes can it really be a dictionary file?
-    if fileSize < MIN_FILE_SIZE: #if file size too small
+    if fileSize < MIN_FILE_SIZE:  # if file size too small
         return False
-    elif fileSize > MAX_FILE_SIZE: #if file size too large
+    elif fileSize > MAX_FILE_SIZE:  # if file size too large
         return False
     return True
+
 
 def readall_dictionary_file(fullPathToDictionary):
     """read entire dictionary file into memory, return it, removing empty lines, short entries, and odd chars
@@ -80,8 +82,8 @@ def readall_dictionary_file(fullPathToDictionary):
         tempLine = file.readline()
         while len(tempLine) > 0:
             tempLine = tempLine.strip()  # strip ws chars from ends
-            tempLine = remove_invalid_filename_chars(tempLine) # remove invalid chars
-            if len(tempLine) > ENTRY_MIN_FILENAME_LENGTH: # filters out names too short
+            tempLine = remove_invalid_filename_chars(tempLine)  # remove invalid chars
+            if len(tempLine) > ENTRY_MIN_FILENAME_LENGTH:  # filters out names too short
                 dictionaryFileLines.append(tempLine)
             else:
                 shortLines = shortLines + 1

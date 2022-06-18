@@ -4,15 +4,15 @@ import sys
 import os
 import random
 import file_operations as fo
+import directory_dialog as ddi
 import copy
 import tkinter as tk
 from tkinter import filedialog
 
 from typing import Tuple
 
-PROG_FILE_NAME = sys.argv[0]
+PROG_FILE_NAME = os.path.basename(__file__)
 """name of this python script"""
-
 DICTFILENAME = "dict.txt"
 """name of the dictionary file, no path included."""
 PERIOD_CHAR = "."
@@ -29,7 +29,7 @@ print("*\nGetting the list of image files in folder...")
 print("\nCurrent path is: ", os.getcwd())
 
 dictionaryDirectory = os.getcwd()  # store program dir for finding the dictionary file later.
-workingDirectory = filedialog.askdirectory()  # ask user to browser to the directory with the files.
+workingDirectory = ddi.get_working_folder(dictionaryDirectory) # ask user to browse to the directory with the files.
 directoryList = os.listdir(workingDirectory)  # list the files in the chosen directory.
 os.chdir(workingDirectory)
 print("\nTo-be-renamed directory is: ", workingDirectory)
